@@ -1,0 +1,198 @@
+/* Base Styles */
+body {
+    background-color: #1c1c1c; /* Dark mode background color */
+    font-family: Arial, sans-serif;
+    color: #f2f5f9; /* Dark mode text color */
+    transition: background-color 0.3s, color 0.3s;
+    height: 100vh;
+    justify-content: center; /*in case of css failure remove these under line*/
+    align-items: center;
+    box-sizing: border-box;
+}
+
+#logo-img {
+    max-width: 100%;
+    height: auto;
+    width: 180px; /* Default width */
+    padding-top: 10px;
+}
+
+@media (max-width: 768px) {
+    #logo-img {
+        width: 150px; /* Adjust width for smaller screens */
+    }
+}
+
+@media (max-width: 576px) {
+    #logo-img {
+        width: 120px; /* Adjust width for even smaller screens */
+    }
+}
+
+/* Night Mode Styles */
+.btn-transparent {
+    background-color: transparent;
+    border: 2px solid gray; /* Ensure visible border */
+    color: inherit; /* Use the default text color */
+    margin: 0.9rem 0.1rem 0 0; /* Consistent margin */
+    font-size: 22px; /* Use the default font size */
+    cursor: pointer;
+    transition: color 0.3s ease; /* Add transition for color change */
+    padding: 0.2rem 1rem; /* Add padding for better click area */
+}
+
+.btn-transparent:hover {
+    color: #999; /* Change color on hover */
+}
+/* Since we are setting dark mode as default, the .night-mode class is no longer needed for the initial state */
+/* .night-mode styles are now the base styles */
+
+.file-upload {
+    position: relative;
+    overflow: hidden;
+    margin: 15px;
+    margin-left: 70px;    /*do 70 px*/
+    max-width: 180px;
+    text-align: center;
+    color: #f2f5f9; /* Dark mode text color */
+    font-size: 1.2em;
+    background: transparent;
+    border: 2px solid #888;
+    padding: 0.85em 1em;
+    display: inline-block;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.file-upload:hover {
+    background: transparent;
+    color: #ffffff;
+    box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.75);
+    border-color: red;
+}
+
+.file-upload input.file-input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.details {
+    position: absolute;
+    top: 125%;  /* Position it below the parent element */
+    left: 50%;  /* Center horizontally */
+    transform: translateX(-50%);  /* Adjust horizontal centering */
+    text-align: center;
+    font-size: 1.2em;
+    color: #f2f5f9; /* Dark mode text color */
+    
+}
+
+/* Header Styles */
+.header {
+    background-color: #333; /* Dark mode header background color */
+    border-bottom: 1px solid #444; /* Dark mode header border color */
+    height: 65px;
+}
+
+/* Container Styles */
+.containers {
+    padding-top: 20px;
+    height: 470px;
+    position: relative;
+    max-width: 320px;
+    margin: auto;
+}
+
+/* Image Wrapper Styles */
+.imageWrapper {
+    border: 3px solid #888;
+    width: 70%;
+    padding-bottom: 70%;
+    margin-top: 54%;
+    border-radius: 50%;
+    overflow: hidden;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.imageWrapper img {
+    height: 120%;
+    width: auto;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Video Stream and Capture Canvas Styles */
+#camera-stream {
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    margin: 20px auto;
+    border: 2px solid #888;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#capture-canvas {
+    display: none;
+    width: 100%;
+    max-width: 320px;
+    margin: 20px auto;
+    border: 2px solid #888;
+    border-radius: 10px;
+}
+
+/* Footer Styles */
+footer {
+    margin-top: 190px;
+    /* Adjust as needed */
+    text-align: center;
+    color: #6c757d;
+    width: 100%;
+}
+
+@media screen and (min-width: 380px) {
+    footer {
+        position: relative;
+        bottom: 0;
+        width: 100%;
+    }
+}
+.btn btn-danger{
+    padding-left: 200%;
+}
+/* Optional: Add styles for light mode if needed */
+.light-mode {
+    background-color: #f2f5f9;
+    color: #000;
+    box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.75);
+}
+.light-mode .header {
+    background-color: #fff;
+    border-color: #e0e0e0;
+}
+.light-mode .file-upload {
+    color: #000;
+    border-color: #000;
+}
+.light-mode .details {
+    color: #6c757d;
+}
+.light-mode .file-upload:hover {
+    background: transparent;
+    color: #000000;
+    box-shadow: 0px 0px 10px 0px rgba(27, 25, 152, 0.75);
+    /* border-color: rgb(49, 186, 67); */
+}
