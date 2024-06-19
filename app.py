@@ -2,9 +2,6 @@ from app import create_app
 
 app = create_app()
 
-if __name__ == "__main__":
-    app.run(debug=True)   #In the case of any error try it 
-
 # from flask import Flask, render_template
 
 # app = Flask(__name__)
