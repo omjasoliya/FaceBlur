@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>FACEBLUR</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="container-fluid d-flex justify-content-between align-items-center"> 
+            <h1 class="m-0">
+                <img src="https://i.ibb.co/JpvygtR/night-logo.png" id="logo-img" alt="Logo">
+            </h1>  
+            <button id="toggle-button" class="btn btn-transparent">🌙</button> 
+        </div>
+    </header>
+
+    <div class="containers">
+        <h1 class="text-center">Upload an Image</h1>
+        <form id="upload-form" action="{{ url_for('main.upload') }}" method="post" enctype="multipart/form-data" class="mt-5">
+            <div class="form-group">
+                <div class="imageWrapper" id="owner-image-wrapper">
+                    <img class="image" src="https://i.ibb.co/gSxnwX2/Owner.jpg" alt="Owner Image">
+                </div>
+                <label class="file-upload btn btn-primary btn-block">
+                    <input type="file" name="file" class="file-input" id="file-input" style="display: none;" onchange="displayFileName(this)">
+                    <span id="file-upload-text">Choose File</span>
+                </label>
+            </div>
+            <div class="form-group">
+                <button type="button" class="btn btn-secondary btn-block" onclick="openCamera(); hide(); ">Take a Selfie</button>
+                <video id="camera-stream" style="display: none;" autoplay></video>
+                <canvas id="capture-canvas" style="display: none;"></canvas>
+                <div id="camera-controls" style="display: none;" class="text-center mt-2">
+                    <button type="button" class="btn btn-success" onclick="approveImage()">Approve</button>
+                    <button type="button" class="btn btn-danger" onclick="cancelImage()">Cancel</button>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Upload</button>
+        </form>
+        <p class="details">
+            A Real Face Behind <b>FaceBlur</b>
+        </p>
+    </div>
+    <footer>
+        <p>&copy; 2024 Image Processing App</p>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.com/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        function displayFileName(input) {
+            var fileName = input.files[0].name;
+            var uploadText = document.getElementById('file-upload-text');
+            if (fileName.length > 15) {
+                fileName = fileName.substring(0, 10) + '...';
+            }
+            uploadText.textContent = fileName;
+        }
+
+        function toggleDayNightMode() {
+            document.body.classList.toggle('light-mode');
+            var button = document.getElementById('toggle-button');
+            var logoImg = document.getElementById('logo-img');
+            if (document.body.classList.contains('light-mode')) {
+                button.textContent = '☀️';
+                logoImg.src = 'https://i.ibb.co/P4hFNYs/Main-day-logo.png';
+            } else {
+                button.textContent = '🌛';
+                logoImg.src = 'https://i.ibb.co/JpvygtR/night-logo.png';
+            }
+        }
+
+        document.getElementById('toggle-button').addEventListener('click', toggleDayNightMode);
+
+        function openCamera() {
+            const video = document.getElementById('camera-stream');
+            const constraints = {
+                video: true
+            };
+
+            document.getElementById('owner-image-wrapper').style.display = 'none';
+            navigator.mediaDevices.getUserMedia(constraints)
+                .then((stream) => {
+                    video.style.display = 'block';
+                    video.srcObject = stream;
+                    document.getElementById('camera-controls').style.display = 'block';
+                })
+                .catch((error) => {
+                    console.error('Error accessing camera: ', error);
+                });
+        }
+
+        function approveImage() {
+            const video = document.getElementById('camera-stream');
+            const canvas = document.getElementById('capture-canvas');
+            const context = canvas.getContext('2d');
+
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Stop the camera stream
+            video.srcObject.getTracks().forEach(track => track.stop());
+            video.style.display = 'none';
+            document.getElementById('camera-controls').style.display = 'none';
+
+            canvas.toBlob(function(blob) {
+                const file = new File([blob], "selfie.png", { type: "image/png" });
+                const dataTransfer = new DataTransfer();
+                dataTransfer.items.add(file);
+                document.getElementById('file-input').files = dataTransfer.files;
+
+                displayFileName(document.getElementById('file-input'));
+                document.getElementById('owner-image-wrapper').style.display = 'block';
+                document.getElementsByClassName('details')[0].style.display = 'block';
+            }, 'image/png');
+        }
+
+        function cancelImage() {
+            const video = document.getElementById('camera-stream');
+            video.srcObject.getTracks().forEach(track => track.stop());
+            video.style.display = 'none';
+            document.getElementById('camera-controls').style.display = 'none';
+            document.getElementById('owner-image-wrapper').style.display = 'block';
+            document.getElementsByClassName('details')[0].style.display = 'block';
+        }
+        function hide(){
+            var det = document.getElementsByClassName('details')[0];
+            if(det){
+                det.style.display = 'none';
+            }   
+        }
+    </script>
+
+</body>
+</html>
